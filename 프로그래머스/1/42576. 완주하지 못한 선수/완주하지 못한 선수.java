@@ -2,25 +2,19 @@ import java.util.*;
 
 class Solution {
     public String solution(String[] participant, String[] completion) {
-        HashMap<String, Integer> map = new HashMap<>();
+        HashMap<String, Integer> map = new HashMap<>(participant.length * 2);
         
         for(String p : participant) {
-            map.put(p, map.getOrDefault(p, 0) + 1);
+            map.merge(p, 1, Integer::sum); //기존값 + 1, 없으면 1 저장
         }
         
         for(String c: completion) {
-            map.put(c, map.get(c) - 1);
-        }
-        
-        StringBuffer sb = new StringBuffer();
-        
-        for(String s : map.keySet()) {
-            if(map.get(s) >= 1) {
-                sb.append(s);
-                break;
+            int left = map.merge(c, -1, Integer::sum);
+            if(left == 0) {
+                map.remove(c);
             }
         }
         
-        return sb.toString();
+        return map.keySet().iterator().next();
     }
 }
