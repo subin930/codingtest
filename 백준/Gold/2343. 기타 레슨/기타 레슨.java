@@ -25,7 +25,8 @@ public class Main {
     }
 
     static int binarySearch(int left, int right, int M, int[] arr) {
-        PriorityQueue<Integer> q = new PriorityQueue<>((a, b) -> a - b);
+        int answer = right;
+
         while(left <= right) {
             int mid = left + (right - left) / 2;
             int cnt = checkPossible(M, mid, arr);
@@ -34,12 +35,12 @@ public class Main {
                 //더 큰 블루레이 필요
                 left = mid + 1;
             } else {
+                answer = mid;
                 right = mid - 1;
-                q.offer(mid);
             }
         }
 
-        return q.peek();
+        return answer;
     }
 
     static int checkPossible(int M, int target, int[] arr) {
